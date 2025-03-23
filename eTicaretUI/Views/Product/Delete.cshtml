@@ -1,0 +1,85 @@
+﻿@model eTicaretData.Entities.Product
+@{
+	ViewData["Title"] = "Yeni Ürün Ekle";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<h2 class="text-center text-danger">@Model.Name Silinecek Onaylıyor Musun?</h2>
+
+<form asp-action="Delete" method="post" class="delete-confirmation-form">
+	<input type="hidden" asp-for="ProductId" />
+	<div class="form-group">
+		<p class="text-center">Bu ürünü silmek istediğinizden emin misiniz?</p>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-danger">Evet, Sil</button>
+		<a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Hayır, Geri Dön</a>
+	</div>
+</form>
+
+<style>
+	/* Silme Onay Formu */
+	.delete-confirmation-form {
+		max-width: 600px;
+		margin: 50px auto;
+		padding: 20px;
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+		.delete-confirmation-form h2 {
+			text-align: center;
+			color: #dc3545; /* Kırmızı başlık rengi (silme onayı) */
+			margin-bottom: 20px;
+		}
+
+		.delete-confirmation-form p {
+			text-align: center;
+			font-size: 1.1em;
+			color: #495057;
+			margin-bottom: 30px;
+		}
+
+		.delete-confirmation-form .form-group {
+			margin-bottom: 20px;
+		}
+
+		.delete-confirmation-form .btn {
+			width: 100%;
+			padding: 12px;
+			font-size: 1.2em;
+			border-radius: 5px;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
+
+		.delete-confirmation-form .btn-danger {
+			background-color: #dc3545;
+			border: none;
+		}
+
+			.delete-confirmation-form .btn-danger:hover {
+				background-color: #c82333;
+				transform: translateY(-2px); /* Hover efekti */
+			}
+
+		.delete-confirmation-form .btn-secondary {
+			background-color: #6c757d;
+			border: none;
+			margin-top: 10px;
+		}
+
+			.delete-confirmation-form .btn-secondary:hover {
+				background-color: #5a6268;
+				transform: translateY(-2px); /* Hover efekti */
+			}
+
+		.delete-confirmation-form .btn:hover {
+			cursor: pointer;
+		}
+
+		.delete-confirmation-form .btn:focus {
+			outline: none;
+		}
+
+</style>

@@ -1,0 +1,153 @@
+﻿@model eTicaretData.Entities.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">@ViewData["Title"]</h2>
+
+    <!-- Order Information -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Sipariş Bilgileri</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th>Sipariş Numarası</th>
+                    <td>@Model.OrderId</td>
+                </tr>
+                <tr>
+                    <th>Kullanıcı Adı</th>
+                    <td>@Model.Username</td>
+                </tr>
+                <tr>
+                    <th>Toplam Fiyat</th>
+                    <td>@Model.TotalPrice.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Sipariş Tarihi</th>
+                    <td>@Model.OrderDate.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <th>Sipariş Durumu</th>
+                    <td>@Model.OrderState</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Order Line Details -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h4>Ürün Detayları</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ürün Adı</th>
+                        <th>Adet</th>
+                        <th>Birim Fiyat</th>
+                        <th>Toplam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderLines)
+                    {
+                        <tr>
+                            <td>@(item.Product?.Name ?? "Ürün bilgisi eksik")</td>
+                            <td>@item.OrderLineQuantity</td>
+                            <td>@item.OrderLinePrice.ToString("C")</td>
+                            <td>@((item.OrderLineQuantity * item.OrderLinePrice).ToString("C"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Return Button -->
+    <div class="mt-4 text-center">
+        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary btn-lg">Geri Dön</a>
+    </div>
+</div>
+
+<style>
+    /* Genel Sayfa Arka Planı ve Yazı Tipi */
+    body {
+        background-color: #f8f9fa; /* Hafif gri arka plan */
+        font-family: 'Arial', sans-serif;
+        color: #333; /* Koyu gri yazı rengi */
+    }
+
+    /* Başlık Stili */
+    h2 {
+        color: #007bff;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    /* Card Container */
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card Header */
+    .card-header {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    /* Table */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff; /* Beyaz arka plan */
+    }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6; /* Satır aralarındaki sınır */
+        }
+
+        .table th {
+            background-color: #007bff; /* Mavi başlık arka planı */
+            color: #fff; /* Beyaz başlık metni */
+            font-weight: 600; /* Kalın başlık yazısı */
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2; /* Hafif gri satırlar */
+        }
+
+        .table tr:hover {
+            background-color: #e9ecef; /* Hoverda satır rengi değişir */
+        }
+
+    /* Return Button */
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+        font-weight: 500;
+        padding: 12px 30px;
+        margin-top: 20px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            text-decoration: none;
+        }
+</style>

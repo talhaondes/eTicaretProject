@@ -1,0 +1,124 @@
+﻿@model IEnumerable<eTicaretData.ViewModels.CartItem>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+<h1 class="text-center">Sepet</h1>
+<hr />
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        Sepetiniz Boş
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Ürün Fiyatı</th>
+                <th>Miktar</th>
+                <th>Fotoğraf</th>
+                <th>Toplam Tutar</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.product.Name</td>
+                    <td>@item.product.Price.ToString("c")</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        <img src="@item.product.Image" alt="Ürün Görseli" class="small-image" />
+                    </td>
+                    <td>@((item.product.Price * item.Quantity).ToString("c"))</td>
+                    <td>
+                        <a class="btn btn-danger" asp-action="Remove" asp-route-id="@item.product.ProductId">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>Toplam Fiyat</strong></td>
+                <td>
+                    @if (Model.Count() >= 2)
+                    {
+                        <span style="text-decoration: line-through; color: red;">
+                            @(Model.Sum(x => x.product.Price * x.Quantity).ToString("c"))
+                        </span>
+                        <strong>
+                            @((Model.Sum(x => x.product.Price * x.Quantity) * 0.8m).ToString("c"))
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong>@ViewBag.Total</strong>
+                    }
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Checkout Form -->
+    <form id="checkoutForm" method="post" asp-action="Checkout" asp-controller="Cart">
+        <button type="submit" id="completePurchaseButton" class="btn btn-success">Siparişi Tamamla</button>
+        <a class="btn btn-info" asp-controller="Home" asp-action="Index">Alışverişe Devam Et</a>
+    </form>
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <a asp-controller="Cart" asp-action="CheckoutAsGuest" class="btn btn-secondary d-none" id="guestContinueLink">
+        Misafir Olarak Devam Et
+    </a>
+}
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="loginOrGuestModal" tabindex="-1" role="dialog" aria-labelledby="loginOrGuestModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginOrGuestModalLabel">Giriş Yapılmadı</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Lütfen giriş yapın veya misafir olarak devam edin.
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Giriş Yap</a>
+                <a href="@Url.Action("CheckoutAsGuest", "Cart")" class="btn btn-secondary">Misafir Olarak Devam Et</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .small-image {
+        max-width: 150px;
+        max-height: 150px;
+        object-fit: cover;
+    }
+    /* Diğer CSS düzenlemeleriniz burada */
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var isAuthenticated = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true';
+            if (!isAuthenticated) {
+                $("#completePurchaseButton").on("click", function (e) {
+                    e.preventDefault();
+                    $("#loginOrGuestModal").modal("show");
+                });
+            }
+        });
+    </script>
+}

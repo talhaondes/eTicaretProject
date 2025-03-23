@@ -1,0 +1,143 @@
+﻿@model IEnumerable<eTicaretData.Entities.Order>
+
+@{
+	ViewData["Title"] = "Siparişler";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="table-wrapper">
+	<h1>Siparişler</h1>
+
+	<div class="row">
+		@foreach (var order in Model)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Sipariş Numarası: @order.OrderId</h5>
+						<p><strong>Kullanıcı Adı:</strong> @order.Username</p>
+						<p><strong>Toplam Fiyat:</strong> @order.TotalPrice.ToString("C")</p>
+						<p><strong>Adres Başlığı:</strong> @order.AdressTitle</p>
+						<p><strong>Şehir:</strong> @order.City</p>
+						<p><strong>Sipariş Tarihi:</strong> @order.OrderDate.ToString("dd/MM/yyyy")</p>
+						<p><strong>Sipariş Durumu:</strong> @order.OrderState</p>
+					</div>
+					<div class="card-footer text-end">
+						<a href="@Url.Action("Detail", "Order", new { id = order.OrderId })" class="btn btn-info">Detay</a>
+						<a href="@Url.Action("Delete", "Order", new { id = order.OrderId })" class="btn btn-danger">Sil</a>
+						@if (order.OrderState == eTicaretData.ViewModels.EnumOrderState.Waiting)
+						{
+							<a href="@Url.Action("Complete", "Order", new { id = order.OrderId })" class="btn btn-success">Tamamla</a>
+						}
+					</div>
+
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<style>
+	/* Genel Tablo Düzeni */
+	.table-wrapper {
+		margin: 20px auto;
+		padding: 20px;
+		max-width: 1200px;
+		background-color: #fff;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
+	}
+
+	/* Başlık Stili */
+	h1 {
+		font-size: 28px;
+		color: #333;
+		text-align: center;
+		margin-bottom: 20px;
+		font-family: 'Arial', sans-serif;
+	}
+
+	/* Kartlar */
+	.card {
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		background-color: #fff;
+		overflow: hidden;
+	}
+
+	/* Kart Başlık */
+	.card-title {
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	/* Kart Body */
+	.card-body {
+		padding: 15px;
+	}
+
+	/* Kart Footer */
+	.card-footer {
+		background-color: #f9f9f9;
+		padding: 10px;
+		text-align: right;
+	}
+
+	.btn-success {
+		background-color: #28a745;
+		border: 1px solid #218838;
+		padding: 8px 16px;
+		border-radius: 4px;
+		color: white;
+		text-decoration: none;
+	}
+
+		.btn-success:hover {
+			background-color: #218838;
+		}
+
+	/* Butonlar */
+	.btn-info {
+		background-color: #17a2b8;
+		border: 1px solid #138496;
+		padding: 8px 16px;
+		border-radius: 4px;
+		color: white;
+		text-decoration: none;
+	}
+
+	.btn-danger {
+		background-color: #dc3545;
+		border: 1px solid #c82333;
+		padding: 8px 16px;
+		border-radius: 4px;
+		color: white;
+		text-decoration: none;
+	}
+
+	/* Buton Hover Efekti */
+	.btn-info:hover {
+		background-color: #138496;
+	}
+
+	.btn-danger:hover {
+		background-color: #c82333;
+	}
+
+	/* Kartlar arasındaki boşluk */
+	.mb-4 {
+		margin-bottom: 1.5rem;
+	}
+
+	/* Kolon düzeni */
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.col-md-4 {
+		width: 33.33%;
+		padding: 10px;
+	}
+
+</style>

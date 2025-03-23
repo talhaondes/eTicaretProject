@@ -1,0 +1,110 @@
+﻿@model IEnumerable<eTicaretData.Entities.Product>
+
+@foreach (var x in Model)
+{
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100">
+            <!-- Ürün Görseli -->
+            <img src="@x.Image" alt="Ürün Fotoğrafı" class="card-img-top product-image" />
+
+            <div class="card-body">
+                <h5 class="card-title">@x.Name</h5>
+                <p class="card-text">@x.Description</p>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <!-- Fiyat -->
+                <span class="price">@x.Price.ToString("C")</span>
+
+                <!-- Butonlar -->
+                <div>
+                    <!-- Ürün Detay Butonu -->
+                    <a href="@Url.Action("Detail", "Home", new { id = x.ProductId })"
+                       class="btn-detail me-2">
+                        <i class="fa-solid fa-info-circle"></i> Detay
+                    </a>
+
+                    <!-- Sepete Ekle Butonu (ikonlu) -->
+                    <a href="@Url.Action("Buy", "Cart", new { id = x.ProductId })"
+                       class="btn-detail btn-success"
+                       title="Sepete Ekle">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    /* Kart Stili */
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Resim boyutu ayarı */
+    .product-image {
+        width: 100%;
+        height: 300px; /* İstediğiniz sabit yükseklik (300px) */
+        object-fit: cover; /* Taşan kısımları kırparak resmi karenin içine sığdır */
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .card-footer {
+        background-color: transparent;
+        border-top: none;
+    }
+
+    /* Fiyat Stili */
+    .price {
+        font-size: 18px;
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Buton Stili */
+    .btn-detail {
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #17a2b8; /* mavi ton */
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-detail:hover {
+            background-color: #138496;
+        }
+
+    /* Sepete Ekle butonunun rengini ayırmak isterseniz: */
+    .btn-success {
+        background-color: #28a745 !important;
+        border: none !important;
+    }
+
+        .btn-success:hover {
+            background-color: #218838 !important;
+        }
+</style>

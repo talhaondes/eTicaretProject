@@ -1,0 +1,84 @@
+﻿@model eTicaretData.ViewModels.CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+    var postAction = "Checkout"; // Giriş yapan kullanıcı için
+    var readOnlyAttribute = "readonly"; // Her zaman read-only olacak
+}
+
+<h2>Müşteri Bilgileri</h2>
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+<form method="post" asp-controller="Cart" asp-action="@postAction">
+    <input type="hidden" asp-for="SelectedAddressId" />
+
+    <div class="form-group mb-3">
+        <label asp-for="ShippingDetail.UserName" class="form-label">Müşteri Ad Soyad</label>
+        @Html.EditorFor(m => m.ShippingDetail.UserName, new { htmlAttributes = new { @class = "form-control", id = "customerName" } })
+        @Html.ValidationMessageFor(m => m.ShippingDetail.UserName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="SelectedAddressId" class="form-label">Kayıtlı Adresler</label>
+        <select id="SelectedAddressId"
+                name="SelectedAddressId"
+                class="form-control"
+                onchange="location.href='@Url.Action("Checkout", "Cart")?addressId=' + this.value + '&userName=' + encodeURIComponent(document.getElementById('customerName').value)">
+            <option value="">Adres Seçiniz</option>
+            @foreach (var item in Model.Addresses)
+            {
+                if (Model.SelectedAddressId == Convert.ToInt32(item.Value))
+                {
+                    <option value="@item.Value" selected="selected">@item.Text</option>
+                }
+                else
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            }
+        </select>
+        @Html.ValidationMessageFor(m => m.SelectedAddressId, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Adres bilgileri, sadece dropdown'dan seçilen veriyi gösterecek, read-only -->
+    <div class="form-group mb-3">
+        <label asp-for="ShippingDetail.AdressTitle" class="form-label">Adres Türü</label>
+        @Html.EditorFor(m => m.ShippingDetail.AdressTitle, new { htmlAttributes = new { @class = "form-control", @readonly = readOnlyAttribute } })
+        @Html.ValidationMessageFor(m => m.ShippingDetail.AdressTitle, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ShippingDetail.AddressLine1" class="form-label">Adres Satırı</label>
+        @Html.EditorFor(m => m.ShippingDetail.AddressLine1, new { htmlAttributes = new { @class = "form-control", @readonly = readOnlyAttribute } })
+        @Html.ValidationMessageFor(m => m.ShippingDetail.AddressLine1, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ShippingDetail.District" class="form-label">Semt / İlçe</label>
+        @Html.EditorFor(m => m.ShippingDetail.District, new { htmlAttributes = new { @class = "form-control", @readonly = readOnlyAttribute } })
+        @Html.ValidationMessageFor(m => m.ShippingDetail.District, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ShippingDetail.City" class="form-label">Şehir</label>
+        @Html.EditorFor(m => m.ShippingDetail.City, new { htmlAttributes = new { @class = "form-control", @readonly = readOnlyAttribute } })
+        @Html.ValidationMessageFor(m => m.ShippingDetail.City, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Siparişi Tamamla</button>
+</form>
+
+<style>
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        border-radius: 4px;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+</style>

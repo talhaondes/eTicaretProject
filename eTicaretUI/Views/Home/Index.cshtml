@@ -1,0 +1,83 @@
+﻿@model IEnumerable<eTicaretData.Entities.Product>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section (Navbar altına gelecek) -->
+<header class="hero-section d-flex align-items-center">
+    <div class="container text-center hero-content">
+        <span class="badge bg-warning text-dark px-3 py-2 mb-3">
+            Biri Sana Biri Sevdiklerine
+        </span>
+        <h1 class="display-4 fw-bold mb-2">Tüm Ürünlerde<br />2 Adet ve Üzeri Al</h1>
+        <h2 class="text-white fw-bold mb-4">%20 AZ ÖDE</h2>
+        <p class="text-white mb-4" style="max-width: 600px; margin: 0 auto;">
+            Kampanya 31 Aralık 23.59 tarihine kadar yapacağınız
+            alışverişlerinizde geçerlidir. Çorap ve aksesuar ürünleri dahil değildir.
+        </p>
+
+         <div>
+            <a href="/Home/List?selecteditem=2" class="btn btn-light me-2">KADIN</a>
+            <a href="/Home/List?selecteditem=1" class="btn btn-light me-2">ERKEK</a>
+            <a href="/Home/List?selecteditem=6" class="btn btn-light me-2">KIZ ÇOCUK</a>
+            <a href="/Home/List?selecteditem=7" class="btn btn-light me-2">ERKEK ÇOCUK</a>
+         </div>
+    </div>
+</header>
+
+<!-- Ürünler Başlık ve Listeleme -->
+<div class="container py-4">
+    <h1 class="text-center mb-3">Ürünler</h1>
+    <p class="text-center mb-4">
+        <!-- Dilediğiniz açıklama metni -->
+    </p>
+
+    <!-- Hepsini Gör Butonu -->
+    <div class="text-center mb-4">
+        <a href="/Home/List" class="btn btn-primary btn-lg">Hepsini Gör</a>
+    </div>
+
+    <!-- Ürünler Listesi -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @await Html.PartialAsync("_ProductList", Model)
+    </div>
+</div>
+
+<style>
+    /* Hero Section Arka Plan (Gradient veya Resim) */
+    .hero-section {
+        min-height: 450px; /* Kahraman bölümünün yüksekliği */
+        background: linear-gradient(to right, #f72585, #b5179e, #7209b7, #560bad, #480ca8, #3a0ca3, #3f37c9, #4361ee, #4895ef, #4cc9f0);
+        /* İsterseniz yukarıdaki gradient yerine bir resim de kullanabilirsiniz:
+               background: url('/images/kampanya.jpg') center center/cover no-repeat;
+            */
+        position: relative;
+    }
+
+    /* Hero bölümü içeriği */
+    .hero-content {
+        color: #fff;
+        max-width: 800px;
+    }
+
+        /* Büyük başlık */
+        .hero-content .display-4 {
+            color: #fff;
+        }
+
+        /* Alt metin */
+        .hero-content p {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+    /* Kategori butonları (isteğe bağlı) */
+    .btn-light {
+        font-weight: 600;
+    }
+
+        .btn-light:hover {
+            background-color: #e2e6ea;
+        }
+</style>

@@ -1,0 +1,176 @@
+﻿@model IEnumerable<eTicaretData.Identity.AppUser>
+@{
+    ViewData["Title"] = "Kullanıcılar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">@ViewData["Title"]</h2>
+    <p class="text-muted text-center mb-4">Bu sayfada sistemdeki kullanıcıları görüntüleyebilir ve rollerini atayabilirsiniz.</p>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Kullanıcı Listesi</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Ad</th>
+                        <th>Email</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>
+                                <!-- Delete Button -->
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')">
+                                    <i class="fas fa-trash-alt"></i> Sil
+                                </a>
+
+                                <!-- Role Assignment Button -->
+                                <a asp-action="RoleAssign" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-tag"></i> Rol Ata
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Genel Sayfa Arka Planı ve Yazı Tipi */
+    body {
+        background-color: #f8f9fa; /* Hafif gri arka plan */
+        font-family: 'Arial', sans-serif;
+        color: #333; /* Koyu gri yazı rengi */
+    }
+
+    /* Başlık Stili */
+    h2 {
+        color: #007bff;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    /* Card Container */
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card Header */
+    .card-header {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    /* Table */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff; /* Beyaz arka plan */
+    }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6; /* Satır aralarındaki sınır */
+        }
+
+        .table th {
+            background-color: #007bff; /* Mavi başlık arka planı */
+            color: #fff; /* Beyaz başlık metni */
+            font-weight: 600; /* Kalın başlık yazısı */
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2; /* Hafif gri satırlar */
+        }
+
+        .table tr:hover {
+            background-color: #e9ecef; /* Hoverda satır rengi değişir */
+        }
+
+    /* Butonlar */
+    .btn {
+        font-weight: 500;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Silme Butonu */
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    /* Rol Atama Butonu */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    /* Alert Mesajları */
+    .alert {
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .alert-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+</style>

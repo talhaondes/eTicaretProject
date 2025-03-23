@@ -1,0 +1,123 @@
+﻿@model IEnumerable<eTicaretData.Entities.Product>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-2">
+    <!-- Sol Kategori Menüsü -->
+    <aside class="category-menu">
+        <h3>Kategoriler</h3>
+        <form method="get">
+            <div class="category-buttons">
+                @foreach (var kategori in ViewBag.kategoriler as List<SelectListItem>)
+                {
+                    <button type="submit"
+                            name="selecteditem"
+                            value="@kategori.Value"
+                            class="btn btn-link">
+                        @kategori.Text
+                    </button>
+                }
+            </div>
+        </form>
+    </aside>
+    <!-- Ana İçerik Alanı -->
+    <main class="content">
+        <h1 class="page-title">Ürünler</h1>
+
+        <!-- Seçilen Kategori Bilgisi -->
+        @if (ViewBag.selecteditem != null)
+        {
+            var kategoriId = ViewBag.selecteditem;
+            var kategoriAdi = ((IEnumerable<SelectListItem>)ViewBag.kategoriler)
+            .FirstOrDefault(x => x.Value == kategoriId.ToString())?.Text;
+
+            <div class="alert alert-info">
+                <strong>Seçilen Kategori:</strong> @kategoriAdi
+                (@Model.Count() ürün bulundu)
+            </div>
+        }
+
+        <!-- Ürün Listesi -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @await Html.PartialAsync("_ProductList", Model)
+        </div>
+    </main>
+</div>
+
+<!-- CSS Stilleri -->
+<style>
+    /* Sayfanın tamamı için genel yapı */
+    .container {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding-top: 20px;
+    }
+
+    /* Sol menü için stil */
+    .category-menu {
+        width: 200px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px; /* Butonlar arasına boşluk bırakır */
+    }
+
+        .category-buttons button {
+            background-color: #fff;
+            border: 1px solid #007bff;
+            color: #007bff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .category-buttons button:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+    /* Ana içeriği düzenleme */
+    .content {
+        flex: 1;
+        margin-top: 20px; /* navbar yüksekliği kadar boşluk ver */
+    }
+
+    /* Navbar sabit */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 200;
+        background-color: #343a40;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    /* Seçili kategori mesajı */
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    /* Sayfa başlığı */
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+</style>

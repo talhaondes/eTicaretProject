@@ -1,0 +1,125 @@
+﻿@model eTicaretData.Entities.Order
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Siparişiniz Tamamlandı";
+	// Ara Toplam (indirimsiz)
+	var subTotal = Model.OrderLines.Sum(x => x.Product.Price * x.OrderLineQuantity);
+
+	// Uygulanan indirim miktarı (eğer varsa)
+	var discountAmount = subTotal - Model.TotalPrice;
+}
+
+<div class="container my-5">
+	<!-- Başlık ve Bilgilendirme -->
+	<div class="row">
+		<div class="col-12 text-center">
+			<h1 class="display-5">Fatura</h1>
+			<p class="text-muted">Siparişiniz başarıyla oluşturulmuştur. Aşağıda fatura detayı yer almaktadır.</p>
+			<hr />
+		</div>
+	</div>
+
+	<!-- Fatura Başlık Bilgileri (Firma Adı vs.) -->
+	<div class="row mb-4">
+		<div class="col-6">
+			<h5><strong>No-Frills Giyim INC.</strong></h5>
+			<p class="mb-0">Adres: 628 Caledonia Rd,Toronto</p>
+			<p class="mb-0">Telefon: +1 437 878 05 60</p>
+			<p class="mb-0">E-posta: info@company.com</p>
+		</div>
+		<div class="col-6 text-end">
+			<h5>Sipariş No: <strong>@Model.OrderNumber</strong></h5>
+			<p class="mb-0">Tarih: @Model.OrderDate.ToShortDateString()</p>
+			<p class="mb-0">Fatura İçin Referans: #@Model.OrderId</p>
+		</div>
+	</div>
+
+	<!-- Müşteri Bilgileri (Eğer varsa ShippingDetail vb.) -->
+	<div class="row mb-4">
+		<div class="col-6">
+			<h5><strong>Fatura Adresi</strong></h5>
+			<!-- Örneğin, ShippingDetail'dan adres bilgileri çekilebilir -->
+			<p class="mb-0">@Model.AdressTitle</p>
+			<p class="mb-0">@Model.City</p>
+			<p class="mb-0">@Model.Username</p>
+		</div>
+	</div>
+
+	<!-- Sipariş Kalemleri -->
+	<table class="table table-bordered">
+		<thead class="table-light">
+			<tr>
+				<th>Ürün Adı</th>
+				<th class="text-center">Adet</th>
+				<th class="text-end">Birim Fiyat</th>
+				<th class="text-end">Satır Toplam</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.OrderLines != null)
+			{
+				foreach (var line in Model.OrderLines)
+				{
+					<tr>
+						<td>@line.Product.Name</td>
+						<td class="text-center">@line.OrderLineQuantity</td>
+						<td class="text-end">@line.Product.Price.ToString("C")</td>
+						<td class="text-end">@line.OrderLinePrice.ToString("C")</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+
+	<!-- Toplam Bilgileri -->
+	<div class="row justify-content-end">
+		<div class="col-md-4 col-lg-3">
+			<ul class="list-group">
+				<!-- Ara Toplam (indirimsiz) -->
+				<li class="list-group-item d-flex justify-content-between">
+					<span>Ara Toplam</span>
+					<strong>@subTotal.ToString("C")</strong>
+				</li>
+
+				@if (discountAmount > 0)
+				{
+					<!-- İndirim Tutarı (Eğer 2 ürün ve üzeri alındıysa burası pozitif gelir) -->
+					<li class="list-group-item d-flex justify-content-between">
+						<span>İndirim</span>
+						<strong>- @discountAmount.ToString("C")</strong>
+					</li>
+				}
+
+				<!-- En Son Toplam Tutar (İndirim Dahil) -->
+				<li class="list-group-item d-flex justify-content-between">
+					<span>Genel Toplam</span>
+					<strong>@Model.TotalPrice.ToString("C")</strong>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Footer veya Ek Bilgiler -->
+	<div class="row mt-5">
+		<div class="col-12 text-center text-muted">
+			<hr />
+			<p class="mb-0">
+				Bu fatura @DateTime.Now.Year itibarıyla hazırlanmıştır.
+				Şirketimiz yasal hükümlere tabidir.
+			</p>
+		</div>
+	</div>
+</div>
+
+<!-- Fatura Sayfası Stil (isteğe bağlı daha da geliştirebilirsiniz) -->
+<style>
+	.table > :not(caption) > * > * {
+		vertical-align: middle;
+	}
+
+	.display-5 {
+		font-size: 2.5rem;
+		font-weight: 300;
+	}
+</style>

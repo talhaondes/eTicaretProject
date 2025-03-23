@@ -1,0 +1,17 @@
+﻿@model eTicaretData.Entities.Order
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Sipariş Silme</h1>
+
+<div>
+    <h3> <strong>@Model.OrderNumber</strong> Siparişini silmek istiyor musunuz?</h3>
+</div>
+
+<form method="post" asp-action="Delete" asp-route-id="@Model.OrderId">
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">İptal</a>
+</form>
+

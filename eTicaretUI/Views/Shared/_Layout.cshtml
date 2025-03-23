@@ -1,0 +1,164 @@
+﻿@using eTicaretData.Helpers;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - ETrade.UI</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
+	<!-- Site CSS -->
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+	<!-- Datatables CSS (isteğe bağlı) -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+
+	<!-- Sayfa İkonu (Opsiyonel) -->
+	<!-- <link rel="icon" type="image/x-icon" href="~/favicon.ico" /> -->
+	<!-- Diğer CSS'ler veya harici kütüphaneler -->
+	@RenderSection("HeadStyles", required: false)
+</head>
+<body>
+	<!-- Üst Bar / Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
+		<div class="container-fluid">
+			<!-- Logo veya Site Adı -->
+			<a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">NoFrills</a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+					aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Navbar İçeriği -->
+			<div class="collapse navbar-collapse" id="mainNavbar">
+				<!-- Sol Menü -->
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					@if (User.Identity.Name == null)
+					{
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+								<i class="fa-solid fa-house"></i> AnaSayfa
+							</a>
+						</li>
+					}
+					else
+					{
+						if (User.IsInRole("Admin"))
+						{
+							<li class="nav-item">
+								<i class="fa-solid fa-user-gear"></i> Admin Paneli
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">
+									<i class="fa-solid fa-tags"></i> Kategoriler
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">
+									<i class="fa-solid fa-box-open"></i> Ürünler
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">
+									<i class="fa-solid fa-users"></i> Kullanıcılar
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">
+									<i class="fa-solid fa-user-shield"></i> Kullanıcı Rolü
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">
+									<i class="fa-solid fa-receipt"></i> Siparişler
+								</a>
+							</li>
+						}
+					}
+				</ul>
+
+				<!-- Sağ Menü -->
+				<ul class="navbar-nav">
+					<!-- Sepet -->
+					<li class="nav-item me-2">
+						<a asp-action="Index" asp-controller="Cart" class="nav-link position-relative btn btn-warning text-dark">
+							<i class="fa-solid fa-cart-plus"></i>
+							<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+								@SessionHelper.Count
+							</span>
+						</a>
+					</li>
+
+					@if (User.Identity.Name == null)
+					{
+						<!-- Kullanıcı login değil -->
+						<li class="nav-item me-2">
+							<a asp-action="Login" asp-controller="Account" class="nav-link btn btn-outline-primary">
+								<i class="fa-solid fa-right-to-bracket"></i> Giriş Yap
+							</a>
+						</li>
+						<li class="nav-item">
+							<a asp-action="Register" asp-controller="Account" class="nav-link btn btn-primary text-white">
+								<i class="fa-solid fa-user-plus"></i> Üye Ol
+							</a>
+						</li>
+					}
+					else
+					{
+						<!-- Kullanıcı login oldu -->
+						<li class="nav-item me-2">
+							<a asp-action="Profile" asp-controller="Account" class="nav-link btn btn-outline-secondary">
+								<i class="fa-solid fa-user"></i> @User.Identity.Name
+							</a>
+						</li>
+						<li class="nav-item">
+							<a asp-action="Logout" asp-controller="Account" class="nav-link btn btn-danger text-white">
+								<i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+							</a>
+						</li>
+					}
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Ana İçerik -->
+	<!-- Ana İçerik Alanı -->
+	<!-- 2) İçerik için flex-grow-1 ekliyoruz ki body bütün yüksekliği kaplasın -->
+	<main role="main" class="flex-grow-1">
+		<div class="container py-3">
+			@RenderBody()
+		</div>
+	</main>
+
+
+	<!-- Footer -->
+	<!-- 3) Footer en aşağıda duracak, içeriğin altına yapışacak -->
+	<footer class="border-top footer text-muted mt-4">
+		<div class="container py-3 text-center">
+			<span class="me-2">&copy; @DateTime.Now.Year - NoFrills</span>
+			<a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-muted">
+				Privacy
+			</a>
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- DataTables (isteğe bağlı) -->
+	<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+	<!-- Site JS -->
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

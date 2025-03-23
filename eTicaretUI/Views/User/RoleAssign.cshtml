@@ -1,0 +1,137 @@
+﻿@model List<eTicaretData.ViewModels.RoleAssignViewModel>
+
+@{
+    ViewData["Title"] = "RoleAssign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">@ViewBag.Username</h2>
+    <h3 class="text-center mb-4">Rol Atama</h3>
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+        <table class="table table-bordered table-striped w-50 mx-auto">
+            <thead>
+                <tr>
+                    <th>Rol Adı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" asp-for="@Model[i].HasAssing" class="form-check-input role-checkbox" />
+                            @Model[i].Name
+                            <input type="hidden" asp-for="@Model[i].Id" />
+                            <input type="hidden" asp-for="@Model[i].Name" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-primary btn-lg" type="submit">Rol Ata</button>
+        </div>
+    }
+</div>
+<!-- JavaScript kodu -->
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.role-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    checkboxes.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false; // Diğer checkbox'ları temizle
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+<style>
+    /* Genel Sayfa Arka Planı ve Yazı Tipi */
+    body {
+        background-color: #f8f9fa; /* Hafif gri arka plan */
+        font-family: 'Arial', sans-serif;
+        color: #333; /* Koyu gri yazı rengi */
+    }
+
+    /* Başlık Stili */
+    h2 {
+        color: #007bff; /* Mavi başlık rengi */
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    h3 {
+        color: #28a745; /* Yeşil başlık rengi */
+        font-size: 1.75rem;
+        font-weight: normal;
+    }
+
+    /* Tablo */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff; /* Beyaz arka plan */
+    }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6; /* Satır aralarındaki sınır */
+        }
+
+        .table th {
+            background-color: #007bff; /* Mavi başlık arka planı */
+            color: #fff; /* Beyaz başlık metni */
+            font-weight: 600; /* Kalın başlık yazısı */
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2; /* Hafif gri satırlar */
+        }
+
+        .table tr:hover {
+            background-color: #e9ecef; /* Hoverda satır rengi değişir */
+        }
+
+    /* Checkbox */
+    .form-check-input {
+        margin-right: 10px;
+    }
+
+    /* Button */
+    .btn {
+        font-weight: 500;
+        padding: 12px 30px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    /* Align the table */
+    .table-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

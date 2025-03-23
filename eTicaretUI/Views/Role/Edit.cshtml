@@ -1,0 +1,103 @@
+﻿@model eTicaretData.Identity.AppRole
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">@ViewData["Title"]</h2>
+    <hr />
+
+    <form method="post">
+        <div class="form-group row">
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+            </div>
+            <div class="col-md-9">
+                @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+            <a href="@Url.Action("Index", "Role")" class="btn btn-secondary btn-lg">Back to List</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Genel Sayfa Arka Planı ve Yazı Tipi */
+    body {
+        background-color: #f8f9fa; /* Hafif gri arka plan */
+        font-family: 'Arial', sans-serif;
+        color: #333; /* Koyu gri yazı rengi */
+    }
+
+    /* Başlık Stili */
+    h2 {
+        color: #007bff; /* Mavi başlık rengi */
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    /* Form Alanları */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group .form-label {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+
+    /* Button */
+    .btn {
+        font-weight: 500;
+        padding: 12px 30px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    /* Form Actions */
+    .form-group.text-center {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+</style>

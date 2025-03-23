@@ -1,0 +1,40 @@
+﻿@model eTicaretData.ViewModels.AddAdressModel
+
+@{
+    ViewData["Title"] = "Yeni Adres Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Yeni Adres Ekle</h2>
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+<form asp-action="AddAddress" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="AddressType" class="form-label">Adres Türü</label>
+        <input asp-for="AddressType" class="form-control" />
+        <span asp-validation-for="AddressType" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="AddressLine1" class="form-label">Adres Satırı</label>
+        <input asp-for="AddressLine1" class="form-control" />
+        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="District" class="form-label">Semt / İlçe</label>
+        <input asp-for="District" class="form-control" />
+        <span asp-validation-for="District" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="City" class="form-label">Şehir</label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Adres Ekle</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,73 @@
+﻿@{
+	ViewData["Title"] = "Logout";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Çıkış Yapmak Üzeresiniz</h2>
+
+<p>Oturumunuzu kapatmak istediğinizden emin misiniz?</p>
+
+<form method="post" asp-action="Logoutpost">
+	<button type="submit" class="btn btn-danger">Evet, çıkış yap</button>
+	<a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Hayır, kal</a>
+</form>
+
+
+
+<style>
+	/* Sayfa Düzeni */
+	.container {
+		max-width: 600px;
+		margin: 50px auto;
+		padding: 40px;
+		background-color: #fff;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: 24px;
+		color: #333;
+		margin-bottom: 20px;
+	}
+
+	p {
+		font-size: 16px;
+		color: #555;
+		margin-bottom: 30px;
+	}
+
+	.btn {
+		padding: 12px 25px;
+		font-size: 16px;
+		border-radius: 5px;
+		margin: 10px;
+		transition: all 0.3s ease;
+	}
+
+	/* Çıkış Yap Butonu */
+	.btn-danger {
+		background-color: #dc3545;
+		border: 1px solid #c82333;
+		color: white;
+	}
+
+		.btn-danger:hover {
+			background-color: #c82333;
+			border: 1px solid #bd2130;
+		}
+
+	/* Hayır, Kal Butonu */
+	.btn-secondary {
+		background-color: #6c757d;
+		border: 1px solid #5a6268;
+		color: white;
+	}
+
+		.btn-secondary:hover {
+			background-color: #5a6268;
+			border: 1px solid #4e555b;
+		}
+
+</style>

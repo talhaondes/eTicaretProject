@@ -1,0 +1,152 @@
+﻿@model eTicaretData.ViewModels.LoginViewModel
+@{
+	ViewData["Title"] = "Login";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+	<div class="login-card p-4 shadow">
+		<h1 class="text-center mb-4">@ViewData["Title"]</h1>
+		<hr />
+		@* ValidationSummary tüm hata mesajlarını gösterecek şekilde ayarlandı *@
+		@if (ViewData.ModelState.ErrorCount > 0)
+		{
+			@Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+		}
+		<form method="post">
+			<!-- Kullanıcı Adı -->
+			<div class="mb-3">
+				<label for="UserName" class="form-label">Kullanıcı Adı</label>
+				<input type="text"
+					   id="UserName"
+					   name="UserName"
+					   class="form-control"
+					   placeholder="Kullanıcı adınızı giriniz" />
+				<span asp-validation-for="UserName" class="text-danger"></span>
+			</div>
+
+			<!-- Şifre -->
+			<div class="mb-3">
+				<label for="PassWord" class="form-label">Şifre</label>
+				<input type="password"
+					   id="PassWord"
+					   name="PassWord"
+					   class="form-control"
+					   placeholder="Şifrenizi giriniz" />
+				<span asp-validation-for="PassWord" class="text-danger"></span>
+			</div>
+
+			<!-- Beni Hatırla -->
+			<div class="form-check mb-3">
+				<input type="checkbox"
+					   id="RememberMe"
+					   name="RememberMe"
+					   class="form-check-input" />
+				<label class="form-check-label" for="RememberMe">Beni Hatırla</label>
+			</div>
+
+			<!-- Giriş Yap Butonu -->
+			<button type="submit" class="btn btn-primary w-100 text-uppercase fw-bold">
+				Giriş Yap
+			</button>
+		</form>
+
+		<hr />
+
+		<!-- Şifremi Unuttum ve Kayıt Ol bağlantıları -->
+		<div class="d-flex justify-content-between">
+			<a asp-action="ForgotPassword" asp-controller="Account" class="text-decoration-none">
+				<small>Şifremi Unuttum?</small>
+			</a>
+			<a asp-action="Register" asp-controller="Account" class="text-decoration-none">
+				<small>Hesabınız yok mu? Kayıt olun</small>
+			</a>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<style>
+	/* Arka Plan Düzeni */
+	.login-wrapper {
+		min-height: 100vh;
+		background: linear-gradient(to right, #eff1f3, #f7f9fa);
+		/* veya sabit renk: background-color: #f7f9fa; */
+	}
+
+	.login-card {
+		width: 100%;
+		max-width: 400px;
+		border-radius: 10px;
+		background-color: #ffffff;
+	}
+
+		/* Başlık */
+		.login-card h1 {
+			font-size: 24px;
+			font-weight: 700;
+			color: #444;
+		}
+
+		/* Ayracı kısaltmak için */
+		.login-card hr {
+			width: 60%;
+			margin: 0.5rem auto 1rem;
+			border-top: 1px solid #ddd;
+		}
+
+	/* Form Elemanları */
+	.form-label {
+		font-weight: 600;
+		color: #444;
+	}
+
+	.form-control {
+		border-radius: 6px;
+		border: 1px solid #ddd;
+		padding: 10px;
+		font-size: 14px;
+		transition: border-color 0.2s, box-shadow 0.2s;
+	}
+
+		.form-control:focus {
+			border-color: #4CAF50;
+			box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+		}
+
+	/* Beni Hatırla Alanı */
+	.form-check-label {
+		font-size: 14px;
+		color: #666;
+	}
+
+	/* Buton Stili */
+	.btn-primary {
+		background-color: #4CAF50;
+		border: none;
+		font-weight: 600;
+		letter-spacing: 0.5px;
+	}
+
+		.btn-primary:hover {
+			background-color: #45a049;
+		}
+
+	/* Hata Mesajları */
+	.text-danger {
+		font-size: 13px;
+		margin-top: 2px;
+	}
+
+	/* Linkler */
+	.login-card a {
+		font-size: 13px;
+		color: #666;
+	}
+
+		.login-card a:hover {
+			text-decoration: underline;
+		}
+</style>

@@ -1,0 +1,203 @@
+﻿@model IEnumerable<eTicaretData.Entities.Product>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="table-wrapper">
+    <h1>Ürün Listesi</h1>
+
+    <!-- Ürün Ekleme Butonu -->
+    <div class="text-end mb-3">
+        <a href="@Url.Action("Create", "Product")" class="btn btn-success">
+            <i class="fa fa-plus"></i> Ürün Ekle
+        </a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th>Fotoğraf</th>
+                <th>Stokta Var Mı</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var urun in Model)
+            {
+                <tr>
+                    <td>@urun.Name</td>
+                    <td>@urun.Price.ToString("C")</td>
+                    <td>@urun.Stock</td>
+                    <td><img src="@urun.Image" alt="Ürün Görseli" class="img-fluid" /></td>
+                    <td>@(urun.IsHome ? "Evet" : "Hayır")</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Product", new { id = urun.ProductId })" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Düzenle</a>
+                        <a href="@Url.Action("Delete", "Product", new { id = urun.ProductId })" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Sil</a>
+                        <a href="@Url.Action("Detail", "Product", new { id = urun.ProductId })" class="btn btn-info">Detaylar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Genel Tablo Düzeni */
+    .table-wrapper {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 1200px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    /* Ürün Ekleme Butonu */
+    .text-end {
+        text-align: right;
+    }
+
+    /* Tablo */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #f9f9f9;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        /* Tablo Başlıkları */
+        .table thead {
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        /* Tablo Satırları */
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Tablo Satırları üzerine hover efekti */
+        .table tbody tr:hover {
+            background-color: #e1e1e1;
+            cursor: pointer;
+        }
+
+        /* Tablo Hücreleri */
+        .table td, .table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+
+        /* Bağlantılar */
+        .table a {
+            text-decoration: none;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+            /* Buton Hover Efekti */
+            .table a:hover {
+                opacity: 0.8;
+                transform: translateY(-2px);
+            }
+
+    /* Farklı Buton Stilleri */
+    .btn-warning {
+        background-color: #ffc107;
+        border: 1px solid #e0a800;
+    }
+
+        /* Buton Hover Efekti */
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border: 1px solid #d39e00;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: 1px solid #c82333;
+    }
+
+        /* Buton Hover Efekti */
+        .btn-danger:hover {
+            background-color: #c82333;
+            border: 1px solid #bd2130;
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border: 1px solid #138496;
+    }
+
+        /* Buton Hover Efekti */
+        .btn-info:hover {
+            background-color: #138496;
+            border: 1px solid #117a8b;
+        }
+
+    /* Görsel Boyutunu Küçültme */
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+        max-height: 100px;
+        object-fit: cover;
+    }
+
+    /* Başlık Stili */
+    h1 {
+        font-size: 28px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Tabloyu Çevreleyen Kutu */
+    .table-wrapper {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    /* Sepet Sayfası İçin Küçük Fotoğraf Boyutu */
+    .small-image {
+        max-width: 150px;
+        max-height: 150px;
+        object-fit: cover; /* Fotoğrafın oranını bozmadan kesilmesini sağlar */
+    }
+
+    /* Sepet Sayfası İçin Miktar Kontrolü */
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 120px;
+    }
+
+    .quantity-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .quantity-btn:hover {
+            background-color: #0056b3;
+        }
+
+</style>
